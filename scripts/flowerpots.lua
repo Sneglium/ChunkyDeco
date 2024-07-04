@@ -77,7 +77,7 @@ local function make_flowerpot (flower, override_tex)
 		sounds = default.node_sound_stone_defaults(),
 		
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-			etc.give_or_drop(clicker, pos, flower)
+			etc.give_or_drop(clicker, pos, ItemStack(flower))
 			
 			minetest.swap_node(pos, {name = 'chunkydeco:flowerpot_empty', param2 = node.param2})
 			return clicker: get_wielded_item()
@@ -85,7 +85,7 @@ local function make_flowerpot (flower, override_tex)
 		
 		on_dig = function(pos, node, digger)
 			minetest.node_dig(pos, node, digger)
-			etc.give_or_drop(digger, pos, flower)
+			etc.give_or_drop(digger, pos, ItemStack(flower))
 			return true
 		end,
 		

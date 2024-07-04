@@ -195,7 +195,7 @@ make_dining_table('pine', 'default:pine_wood', 'Pine')
 
 local function make_end_table (id, woodid, displayname)
 	make_connected_table(id..'_end', displayname..' End Table',
-	{0.5, 0.5, 0.5, -0.5, 4/16, -0.5}, {
+	{0.5, 6/16, 0.5, -0.5, 4/16, -0.5}, {
 		{6/16, 4/16, 6/16, 4/16, -7/16, 4/16},
 		{7/16, -6/16, 7/16, 5/16, -0.5, 5/16}
 	}, {

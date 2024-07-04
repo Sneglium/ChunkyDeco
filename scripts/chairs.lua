@@ -309,3 +309,69 @@ make_kitchen_chair_cushion('acacia', 'default:acacia_wood', 'Acacia')
 make_kitchen_chair_cushion('aspen', 'default:aspen_wood', 'Aspen')
 make_kitchen_chair_cushion('jungle', 'default:junglewood', 'Junglewood')
 make_kitchen_chair_cushion('pine', 'default:pine_wood', 'Pine')
+
+local function make_bar_stool (id, woodid, displayname)
+	local collisionbox = {}
+	chunkydeco.unpack_and_inject(collisionbox, {5/16, 0.5, 5/16, -5/16, 4/16, -5/16})
+	
+	local leg_box = {
+		{5/16, 4/16, 5/16, 3/16, -0.5, 3/16},
+		{4/16, -3/16, 4/16, 3/16, -4/16, -4/16}
+	}
+	
+	chunkydeco.unpack_and_inject(collisionbox, leg_box)
+	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 1))
+	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 2))
+	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 3))
+	
+	collision_box = {type = 'fixed', fixed = collisionbox}
+	
+	minetest.register_node('chunkydeco:barstool_'..id, {
+		description = displayname..' Bar Stool',
+		tiles = {'chunkydeco_barstool_cushion.png'},
+		overlay_tiles = {{name = 'chunkydeco_barstool_'..id..'.png', color = 'white'}},
+		use_texture_alpha = 'clip',
+		paramtype = 'light',
+		paramtype2 = 'color',
+		palette = 'chunkydeco_4dir_nodes_palette.png',
+		color = 'white',
+		drawtype = 'mesh',
+		mesh = 'chunkydeco_barstool.obj',
+		selection_box = collision_box,
+		collision_box = collision_box,
+		groups = {choppy = 3, oddly_breakable_by_hand = 1},
+		sounds = default.node_sound_wood_defaults(),
+		on_rightclick = chair_on_rightclick(vector.new(0, 0.5, 0), false),
+		on_dig = chair_on_dig
+	})
+	
+	
+	minetest.register_craft {
+		output = 'chunkydeco:barstool_'..id..' 4',
+		recipe = {
+			{'', 'wool:white', 'default:stick'},
+			{woodid, woodid, woodid},
+			{'default:stick', '', 'default:stick'}
+		}
+	}
+	
+	for index, dye in pairs(chunkydeco.colors) do
+		minetest.register_craft {
+			type = 'shapeless',
+			output = minetest.itemstring_with_palette('chunkydeco:barstool_'..id, (index)*4),
+			recipe = {'chunkydeco:barstool_'..id, dye}
+		}
+		
+		minetest.register_craft {
+			type = 'shapeless',
+			output = minetest.itemstring_with_palette('chunkydeco:barstool_'..id, (index+16)*4),
+			recipe = {'chunkydeco:barstool_'..id, dye, 'chunkydeco:dye_booster'}
+		}
+	end
+end
+
+make_bar_stool('apple', 'default:wood', 'Applewood')
+make_bar_stool('acacia', 'default:acacia_wood', 'Acacia')
+make_bar_stool('aspen', 'default:aspen_wood', 'Aspen')
+make_bar_stool('jungle', 'default:junglewood', 'Junglewood')
+make_bar_stool('pine', 'default:pine_wood', 'Pine')
