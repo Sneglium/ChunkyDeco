@@ -1,6 +1,18 @@
 
 chunkydeco = {modpath = minetest.get_modpath 'chunkydeco'}
 
+local translate = minetest.get_translator 'etcetera'
+
+etc.gettext.chunkydeco = function(text, colormode, ...)
+	if (not colormode) or colormode == 'normal' then
+		return translate(text, ...)
+	else
+		return minetest.colorize(assert(etc.textcolors[colormode], 'Invalid color: ' .. colormode), translate(etc.wrap_text(text, ETC_DESC_WRAP_LIMIT), ...): gsub('\n', '|n|')): gsub('|n|', '\n'): sub(1, -1)
+	end
+end
+
+chunkydeco.register_node, chunkydeco.register_item, chunkydeco.register_tool = etc.create_wrappers('chunkydeco', 'chunky')
+
 local function load_script (fn)
 	dofile(table.concat {chunkydeco.modpath, '/scripts/', fn, '.lua'})
 end

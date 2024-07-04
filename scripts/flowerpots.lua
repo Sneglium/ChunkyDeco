@@ -1,8 +1,8 @@
 
 local flowerlist = {}
 
-minetest.register_node('chunkydeco:flowerpot_empty', {
-	description = 'Flowerpot',
+chunkydeco.register_node('flowerpot_empty', {
+	displayname = 'Flowerpot',
 	tiles = {{name = 'chunkydeco_flowerpot_dirt.png', color = 'white'}, {name = 'empty.png', color = 'white'}},
 	overlay_tiles = {'chunkydeco_flowerpot_clay.png', ''},
 	use_texture_alpha = 'clip',
@@ -40,13 +40,12 @@ minetest.register_node('chunkydeco:flowerpot_empty', {
 })
 
 local function make_flowerpot (flower, override_tex)
-	local pot_name = 'chunkydeco:flowerpot_' .. flower: gsub(':', '_')
-	flowerlist[flower] = pot_name
+	local pot_name ='flowerpot_' .. flower: gsub(':', '_')
+	flowerlist[flower] = 'chunkydeco:'..pot_name
 	
 	local def = minetest.registered_nodes[flower]
 	
-	minetest.register_node(pot_name, {
-		description = 'Flowerpot (' .. def.description .. ')',
+	chunkydeco.register_node(pot_name, {
 		tiles = {
 			{name = 'chunkydeco_flowerpot_dirt.png', color = 'white'},
 			{name = override_tex or def.tiles[1], color = 'white'}

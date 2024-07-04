@@ -102,8 +102,9 @@ minetest.register_globalstep(function()
 end)
 
 local function register_chair_node (name, id, description, nodebox, texname_override, specialgroup, offset, invert)
-	minetest.register_node('chunkydeco:chair_'..name..'_'..id, {
-		description = description..'\nSneak while placing to put under tables.',
+	chunkydeco.register_node('chair_'..name..'_'..id, {
+		displayname = description,
+		description = 'Sneak while placing to put under tables.',
 		tiles = {
 			{name = 'chunkydeco_chair_'..(texname_override or name)..'_top.png', align_style = 'world'},
 			{name = 'chunkydeco_chair_'..(texname_override or name)..'_bottom.png', align_style = 'world'},
@@ -240,8 +241,9 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 	
 	collision_box2 = {type = 'fixed', fixed = collisionbox2}
 	
-	minetest.register_node('chunkydeco:chair_kitchen_cushion_'..id..'_0', {
-		description = displayname..' Upholstered Kitchen Chair'..'\nSneak while placing to put under tables.',
+	chunkydeco.register_node('chair_kitchen_cushion_'..id..'_0', {
+		displayname = displayname..' Upholstered Kitchen Chair',
+		description = 'Sneak while placing to put under tables.',
 		tiles = {{name = 'chunkydeco_chair_kitchen_fancy_'..id..'.png', color = 'white'}},
 		overlay_tiles = {'chunkydeco_chair_kitchen_fancy_cushion.png'},
 		use_texture_alpha = 'clip',
@@ -260,7 +262,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 		on_dig = chair_on_dig
 	})
 	
-	minetest.register_node('chunkydeco:chair_kitchen_cushion_'..id..'_1', {
+	chunkydeco.register_node('chair_kitchen_cushion_'..id..'_1', {
 		tiles = {{name = 'chunkydeco_chair_kitchen_fancy_'..id..'.png', color = 'white'}},
 		overlay_tiles = {'chunkydeco_chair_kitchen_fancy_cushion.png'},
 		use_texture_alpha = 'clip',
@@ -272,7 +274,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 		mesh = 'chunkydeco_chair_kitchen_reverse.obj',
 		selection_box = collision_box2,
 		collision_box = collision_box2,
-		groups = {choppy = 3, oddly_breakable_by_hand = 1},
+		groups = {choppy = 3, oddly_breakable_by_hand = 1, not_in_creative_inventory = 1},
 		sounds = default.node_sound_wood_defaults(),
 		on_place = chair_on_place,
 		on_rightclick = chair_on_rightclick(vector.new(0, 0.1, 0.5), true),
@@ -326,8 +328,8 @@ local function make_bar_stool (id, woodid, displayname)
 	
 	collision_box = {type = 'fixed', fixed = collisionbox}
 	
-	minetest.register_node('chunkydeco:barstool_'..id, {
-		description = displayname..' Bar Stool',
+	chunkydeco.register_node('barstool_'..id, {
+		displayname = displayname..' Bar Stool',
 		tiles = {'chunkydeco_barstool_cushion.png'},
 		overlay_tiles = {{name = 'chunkydeco_barstool_'..id..'.png', color = 'white'}},
 		use_texture_alpha = 'clip',

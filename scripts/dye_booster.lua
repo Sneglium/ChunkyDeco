@@ -1,6 +1,6 @@
 
-minetest.register_craftitem('chunkydeco:dye_booster', {
-	description = 'Color Rendering Catalyst',
+chunkydeco.register_item('dye_booster', {
+	displayname = 'Color Rendering Catalyst',
 	inventory_image = 'chunkydeco_dye_booster.png'
 })
 

@@ -107,8 +107,8 @@ local function update_table_shapes (name, self)
 end
 
 local function register_table_node (name, id, description, nodebox, texname_override, specialgroup)
-	minetest.register_node('chunkydeco:table_'..name..'_'..id, {
-		description = description,
+	chunkydeco.register_node('table_'..name..'_'..id, {
+		displayname = description,
 		tiles = {
 			{name = 'chunkydeco_table_'..(texname_override or name)..'_top.png', align_style = 'world'},
 			{name = 'chunkydeco_table_'..(texname_override or name)..'_bottom.png', align_style = 'world'},

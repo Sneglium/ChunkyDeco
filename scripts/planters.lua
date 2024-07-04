@@ -1,6 +1,6 @@
 
-minetest.register_node('chunkydeco:planter', {
-	description = 'Terracotta Planter',
+chunkydeco.register_node('planter', {
+	displayname = 'Terracotta Planter',
 	tiles = {
 		{name = 'chunkydeco_planter_dirt.png', color = 'white'},
 		'chunkydeco_planter_clay_bottom.png',
