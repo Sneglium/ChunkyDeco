@@ -139,7 +139,6 @@ local function make_chair (name, description, top_box, leg_box, back_box, texnam
 	
 	for _, v in ipairs(nodebox) do
 		local new_box = table.copy(v)
-		print(dump(new_box))
 		new_box[3] = new_box[3] - 0.5
 		new_box[6] = new_box[6] - 0.5
 		
@@ -210,3 +209,103 @@ make_fancy_chair('aspen', 'default:aspen_wood', 'Aspen')
 make_fancy_chair('jungle', 'default:junglewood', 'Junglewood')
 make_fancy_chair('pine', 'default:pine_wood', 'Pine')
 
+local function make_kitchen_chair_cushion (id, woodid, displayname)
+	local collisionbox = {}
+	chunkydeco.unpack_and_inject(collisionbox, {5/16, 2/16, 6/16, -5/16, 0, -6/16})
+	chunkydeco.unpack_and_inject(collisionbox, {
+		{5/16, 6/16, 6/16, -5/16, 2/16, 4/16},
+		{6/16, 13/16, 7/16, -6/16, 6/16, 5/16},
+	})
+	
+	local leg_box = {
+		{5/16, 0, 5/16, 3/16, -0.5, 3/16}
+	}
+	
+	chunkydeco.unpack_and_inject(collisionbox, leg_box)
+	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 1))
+	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 2))
+	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 3))
+	
+	collision_box = {type = 'fixed', fixed = collisionbox}
+	
+	local collisionbox2 = {}
+	
+	for _, v in ipairs(collisionbox) do
+		local new_box = table.copy(v)
+		new_box[3] = new_box[3] - 0.5
+		new_box[6] = new_box[6] - 0.5
+		
+		table.insert(collisionbox2, etc.rotate_nodebox(new_box, 'y', 2))
+	end
+	
+	collision_box2 = {type = 'fixed', fixed = collisionbox2}
+	
+	minetest.register_node('chunkydeco:chair_kitchen_cushion_'..id..'_0', {
+		description = displayname..' Upholstered Kitchen Chair'..'\nSneak while placing to put under tables.',
+		tiles = {{name = 'chunkydeco_chair_kitchen_fancy_'..id..'.png', color = 'white'}},
+		overlay_tiles = {'chunkydeco_chair_kitchen_fancy_cushion.png'},
+		use_texture_alpha = 'clip',
+		paramtype = 'light',
+		paramtype2 = 'color4dir',
+		palette = 'chunkydeco_4dir_nodes_palette.png',
+		color = 'white',
+		drawtype = 'mesh',
+		mesh = 'chunkydeco_chair_kitchen.obj',
+		selection_box = collision_box,
+		collision_box = collision_box,
+		groups = {choppy = 3, oddly_breakable_by_hand = 1},
+		sounds = default.node_sound_wood_defaults(),
+		on_place = chair_on_place,
+		on_rightclick = chair_on_rightclick(vector.new(0, 0.1, 0), false),
+		on_dig = chair_on_dig
+	})
+	
+	minetest.register_node('chunkydeco:chair_kitchen_cushion_'..id..'_1', {
+		tiles = {{name = 'chunkydeco_chair_kitchen_fancy_'..id..'.png', color = 'white'}},
+		overlay_tiles = {'chunkydeco_chair_kitchen_fancy_cushion.png'},
+		use_texture_alpha = 'clip',
+		paramtype = 'light',
+		paramtype2 = 'color4dir',
+		palette = 'chunkydeco_4dir_nodes_palette.png',
+		color = 'white',
+		drawtype = 'mesh',
+		mesh = 'chunkydeco_chair_kitchen_reverse.obj',
+		selection_box = collision_box2,
+		collision_box = collision_box2,
+		groups = {choppy = 3, oddly_breakable_by_hand = 1},
+		sounds = default.node_sound_wood_defaults(),
+		on_place = chair_on_place,
+		on_rightclick = chair_on_rightclick(vector.new(0, 0.1, 0.5), true),
+		on_dig = chair_on_dig,
+		drop = 'chunkydeco:chair_kitchen_cushion_'..id..'_0',
+	})
+	
+	minetest.register_craft {
+		output = 'chunkydeco:chair_kitchen_cushion_'..id..'_0 4',
+		recipe = {
+			{'', 'wool:white', 'default:stick'},
+			{woodid, woodid, woodid},
+			{'default:stick', '', 'default:stick'}
+		}
+	}
+	
+	for index, dye in pairs(chunkydeco.colors) do
+		minetest.register_craft {
+			type = 'shapeless',
+			output = minetest.itemstring_with_palette('chunkydeco:chair_kitchen_cushion_'..id..'_0', (index)*4),
+			recipe = {'chunkydeco:chair_kitchen_cushion_'..id..'_0', dye}
+		}
+		
+		minetest.register_craft {
+			type = 'shapeless',
+			output = minetest.itemstring_with_palette('chunkydeco:chair_kitchen_cushion_'..id..'_0', (index+16)*4),
+			recipe = {'chunkydeco:chair_kitchen_cushion_'..id..'_0', dye, 'chunkydeco:dye_booster'}
+		}
+	end
+end
+
+make_kitchen_chair_cushion('apple', 'default:wood', 'Applewood')
+make_kitchen_chair_cushion('acacia', 'default:acacia_wood', 'Acacia')
+make_kitchen_chair_cushion('aspen', 'default:aspen_wood', 'Aspen')
+make_kitchen_chair_cushion('jungle', 'default:junglewood', 'Junglewood')
+make_kitchen_chair_cushion('pine', 'default:pine_wood', 'Pine')

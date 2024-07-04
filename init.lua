@@ -41,13 +41,6 @@ load_script 'dye_booster'
 load_script 'flowerpots'
 load_script 'planters'
 
--- TODO: mesh-based chairs with dyeable cushions
---- upholstered kitchen chair
---- Bar stool
---- armchair
--- TODO: indoor/outdoor metal tables & chairs
--- TODO: park benches
-
 -- (mostly) Indoor Furniture
 load_script 'tables'
 load_script 'chairs'
