@@ -243,7 +243,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 	
 	chunkydeco.register_node('chair_kitchen_cushion_'..id..'_0', {
 		displayname = displayname..' Upholstered Kitchen Chair',
-		description = 'Sneak while placing to put under tables.',
+		description = 'Sneak while placing to put under tables.\nCraft with dye to change cushion color.',
 		tiles = {{name = 'chunkydeco_chair_kitchen_fancy_'..id..'.png', color = 'white'}},
 		overlay_tiles = {'chunkydeco_chair_kitchen_fancy_cushion.png'},
 		use_texture_alpha = 'clip',
@@ -283,7 +283,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 	})
 	
 	minetest.register_craft {
-		output = 'chunkydeco:chair_kitchen_cushion_'..id..'_0 4',
+		output = minetest.itemstring_with_palette('chunkydeco:chair_kitchen_cushion_'..id..'_0 4', 0),
 		recipe = {
 			{'', 'wool:white', 'default:stick'},
 			{woodid, woodid, woodid},
@@ -330,11 +330,12 @@ local function make_bar_stool (id, woodid, displayname)
 	
 	chunkydeco.register_node('barstool_'..id, {
 		displayname = displayname..' Bar Stool',
+		description = 'Craft with dye to change cushion color.',
 		tiles = {'chunkydeco_barstool_cushion.png'},
 		overlay_tiles = {{name = 'chunkydeco_barstool_'..id..'.png', color = 'white'}},
 		use_texture_alpha = 'clip',
 		paramtype = 'light',
-		paramtype2 = 'color',
+		paramtype2 = 'color4dir',
 		palette = 'chunkydeco_4dir_nodes_palette.png',
 		color = 'white',
 		drawtype = 'mesh',
@@ -344,15 +345,16 @@ local function make_bar_stool (id, woodid, displayname)
 		groups = {choppy = 3, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_wood_defaults(),
 		on_rightclick = chair_on_rightclick(vector.new(0, 0.5, 0), false),
+		on_place = chair_on_place,
 		on_dig = chair_on_dig
 	})
 	
 	
 	minetest.register_craft {
-		output = 'chunkydeco:barstool_'..id..' 4',
+		output = minetest.itemstring_with_palette('chunkydeco:barstool_'..id..' 4', 0),
 		recipe = {
-			{'', 'wool:white', 'default:stick'},
-			{woodid, woodid, woodid},
+			{'', 'wool:white', ''},
+			{'', woodid, ''},
 			{'default:stick', '', 'default:stick'}
 		}
 	}
@@ -377,3 +379,90 @@ make_bar_stool('acacia', 'default:acacia_wood', 'Acacia')
 make_bar_stool('aspen', 'default:aspen_wood', 'Aspen')
 make_bar_stool('jungle', 'default:junglewood', 'Junglewood')
 make_bar_stool('pine', 'default:pine_wood', 'Pine')
+
+local function make_single_seat (id, woodid, displayname)
+	local nodebox = {type = 'fixed', fixed = {7/16, -7/16, 7/16, -7/16, -0.5, -7/16}}
+	
+	chunkydeco.register_node('seat_'..id, {
+		displayname = displayname..' Seat Base',
+		description = 'Place on top of any node to make it sittable.',
+		tiles = {'chunkydeco_chair_'..id..'_kitchen_top.png'},
+		use_texture_alpha = 'clip',
+		paramtype = 'light',
+		paramtype2 = '4dir',
+		drawtype = 'nodebox',
+		node_box = nodebox,
+		selection_box = nodebox,
+		collision_box = nodebox,
+		groups = {choppy = 3, oddly_breakable_by_hand = 1},
+		sounds = default.node_sound_wood_defaults(),
+		on_rightclick = chair_on_rightclick(vector.new(0, -0.4, 0), false),
+		on_place = chair_on_place,
+		on_dig = chair_on_dig
+	})
+	
+	
+	minetest.register_craft {
+		output = 'chunkydeco:seat_'..id..' 4',
+		recipe = {
+			{'', '', ''},
+			{woodid, woodid, woodid},
+			{'', 'default:stick', ''}
+		}
+	}
+	
+end
+
+make_single_seat('apple', 'default:wood', 'Applewood')
+make_single_seat('acacia', 'default:acacia_wood', 'Acacia')
+make_single_seat('aspen', 'default:aspen_wood', 'Aspen')
+make_single_seat('jungle', 'default:junglewood', 'Junglewood')
+make_single_seat('pine', 'default:pine_wood', 'Pine')
+
+do
+	local nodebox = {type = 'fixed', fixed = {6/16, -4/16, 6/16, -6/16, -0.5, -6/16}}
+	
+	chunkydeco.register_node('cushion', {
+		displayname = 'Seat Cushion',
+		description = 'Place on top of any node to make it sittable.\nCraft with dye to change cushion color.',
+		tiles = {'chunkydeco_cushion_top.png', 'chunkydeco_cushion_top.png', 'chunkydeco_cushion_side.png'},
+		use_texture_alpha = 'clip',
+		paramtype = 'light',
+		paramtype2 = 'color4dir',
+		palette = 'chunkydeco_4dir_nodes_palette.png',
+		color = 'white',
+		drawtype = 'nodebox',
+		node_box = nodebox,
+		selection_box = nodebox,
+		collision_box = nodebox,
+		groups = {choppy = 3, oddly_breakable_by_hand = 1},
+		sounds = default.node_sound_wood_defaults(),
+		on_rightclick = chair_on_rightclick(vector.new(0, -4/16, 0), false),
+		on_place = chair_on_place,
+		on_dig = chair_on_dig
+	})
+	
+	
+	minetest.register_craft {
+		output = minetest.itemstring_with_palette('chunkydeco:cushion 4', 0),
+		recipe = {
+			{'', 'wool:white', ''},
+			{'group:wood', 'group:wood', 'group:wood'},
+			{'', 'default:stick', ''}
+		}
+	}
+	
+	for index, dye in pairs(chunkydeco.colors) do
+		minetest.register_craft {
+			type = 'shapeless',
+			output = minetest.itemstring_with_palette('chunkydeco:cushion', (index)*4),
+			recipe = {'chunkydeco:cushion', dye}
+		}
+		
+		minetest.register_craft {
+			type = 'shapeless',
+			output = minetest.itemstring_with_palette('chunkydeco:cushion', (index+16)*4),
+			recipe = {'chunkydeco:cushion', dye, 'chunkydeco:dye_booster'}
+		}
+	end
+end

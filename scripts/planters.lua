@@ -1,5 +1,5 @@
 
-chunkydeco.register_node('planter', {
+chunkydeco.register_node('flowerpot_large', {
 	displayname = 'Terracotta Planter',
 	tiles = {
 		{name = 'chunkydeco_planter_dirt.png', color = 'white'},
@@ -37,19 +37,19 @@ chunkydeco.register_node('planter', {
 for index, dye in pairs(chunkydeco.colors) do
 	minetest.register_craft {
 		type = 'shapeless',
-		output = minetest.itemstring_with_palette('chunkydeco:planter', index),
-		recipe = {'chunkydeco:planter', dye}
+		output = minetest.itemstring_with_palette('chunkydeco:flowerpot_large', index),
+		recipe = {'chunkydeco:flowerpot_large', dye}
 	}
 	
 	minetest.register_craft {
 		type = 'shapeless',
-		output = minetest.itemstring_with_palette('chunkydeco:planter', index+16),
-		recipe = {'chunkydeco:planter', dye, 'chunkydeco:dye_booster'}
+		output = minetest.itemstring_with_palette('chunkydeco:flowerpot_large', index+16),
+		recipe = {'chunkydeco:flowerpot_large', dye, 'chunkydeco:dye_booster'}
 	}
 end
 
 minetest.register_craft {
-	output = minetest.itemstring_with_palette('chunkydeco:planter', 0),
+	output = minetest.itemstring_with_palette('chunkydeco:flowerpot_large', 0),
 	recipe = {
 		{'default:clay_brick', '', 'default:clay_brick'},
 		{'default:clay_brick', 'default:dirt', 'default:clay_brick'},

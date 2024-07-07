@@ -62,5 +62,6 @@ load_script 'trashcans'
 -- Lighting
 
 -- Construction
+load_script 'metal_deco'
 
 -- Miscellaneous
