@@ -101,7 +101,7 @@ minetest.register_globalstep(function()
 	end
 end)
 
-local function register_chair_node (name, id, description, nodebox, texname_override, specialgroup, offset, invert)
+local function register_chair_node (name, id, description, nodebox, texname_override, specialgroup, offset, invert, sounds)
 	chunkydeco.register_node('chair_'..name..'_'..id, {
 		displayname = description,
 		description = 'Sneak while placing to put under tables.',
@@ -116,7 +116,7 @@ local function register_chair_node (name, id, description, nodebox, texname_over
 		drawtype = 'nodebox',
 		node_box = nodebox,
 		groups = {choppy = 3, oddly_breakable_by_hand = 1, not_in_creative_inventory = id, [specialgroup or 'chair'] = 1},
-		sounds = default.node_sound_wood_defaults(),
+		sounds = sounds or default.node_sound_wood_defaults(),
 		drop = 'chunkydeco:chair_'..name..'_0',
 		on_place = id == 0 and chair_on_place or nil,
 		on_rightclick = chair_on_rightclick(offset or vector.new(), invert),
@@ -125,7 +125,7 @@ local function register_chair_node (name, id, description, nodebox, texname_over
 end
 
 -- top_box is the seat, leg_box is the +XZ leg, back_box is the chair back which should be oriented to the -Z face
-local function make_chair (name, description, top_box, leg_box, back_box, texname_override, special_group, sit_height)
+local function make_chair (name, description, top_box, leg_box, back_box, texname_override, special_group, sit_height, sounds)
 	local nodebox = {}
 	chunkydeco.unpack_and_inject(nodebox, top_box)
 	chunkydeco.unpack_and_inject(nodebox, back_box)
@@ -134,7 +134,7 @@ local function make_chair (name, description, top_box, leg_box, back_box, texnam
 	chunkydeco.unpack_and_inject(nodebox, etc.rotate_nodeboxes(leg_box, 'y', 2))
 	chunkydeco.unpack_and_inject(nodebox, etc.rotate_nodeboxes(leg_box, 'y', 3))
 	
-	register_chair_node(name, 0, description, {type = 'fixed', fixed = nodebox}, texname_override, special_group, vector.new(0, sit_height or 2/16, 0))
+	register_chair_node(name, 0, description, {type = 'fixed', fixed = nodebox}, texname_override, special_group, vector.new(0, sit_height or 2/16, 0), false, sounds)
 	
 	local nodebox_2 = {}
 	
@@ -146,7 +146,7 @@ local function make_chair (name, description, top_box, leg_box, back_box, texnam
 		table.insert(nodebox_2, etc.rotate_nodebox(new_box, 'y', 2))
 	end
 	
-	register_chair_node(name, 1, description, {type = 'fixed', fixed = nodebox_2}, texname_override, special_group, vector.new(0, sit_height or 2/16, 0.5), true)
+	register_chair_node(name, 1, description, {type = 'fixed', fixed = nodebox_2}, texname_override, special_group, vector.new(0, sit_height or 2/16, 0.5), true, sounds)
 end
 
 local function make_kitchen_chair (id, woodid, displayname)
