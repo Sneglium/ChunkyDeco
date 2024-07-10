@@ -1,7 +1,7 @@
 
 chunkydeco = {modpath = minetest.get_modpath 'chunkydeco'}
 
-local translate = minetest.get_translator 'etcetera'
+local translate = minetest.get_translator 'chunkydeco'
 
 etc.gettext.chunkydeco = function(text, colormode, ...)
 	if (not colormode) or colormode == 'normal' then

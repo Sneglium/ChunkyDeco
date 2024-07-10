@@ -4,6 +4,7 @@ local function make_metal_rod (id, ingot_id, block_id, displayname)
 	chunkydeco.register_node('metal_rod_'..id, {
 		displayname = displayname .. ' Rod',
 		tiles = block_id: find '%.png' and {block_id} or blockdef.tiles,
+		use_texture_alpha = 'clip',
 		paramtype = 'light',
 		sunlight_propagates = true,
 		paramtype2 = 'facedir',
@@ -20,7 +21,7 @@ local function make_metal_rod (id, ingot_id, block_id, displayname)
 	minetest.register_craft {
 		output = 'chunkydeco:metal_rod_'..id..' 2',
 		recipe = {
-			{'', ingot_id, ''},
+			{'etc:ct_hammer', ingot_id, ''},
 			{'', ingot_id, ''},
 			{'', ingot_id, ''}
 		}
@@ -37,6 +38,7 @@ local function make_metal_post (id, ingot_id, block_id, displayname)
 	chunkydeco.register_node('metal_post_'..id, {
 		displayname = displayname .. ' Post',
 		tiles = block_id: find '%.png' and {block_id} or blockdef.tiles,
+		use_texture_alpha = 'clip',
 		paramtype = 'light',
 		sunlight_propagates = true,
 		paramtype2 = 'facedir',
@@ -62,7 +64,7 @@ local function make_metal_post (id, ingot_id, block_id, displayname)
 	minetest.register_craft {
 		output = 'chunkydeco:metal_post_'..id,
 		recipe = {
-			{'', '', ''},
+			{'', 'etc:ct_hammer', ''},
 			{'', ingot_id, ''},
 			{'', ingot_id, ''}
 		}
@@ -71,6 +73,7 @@ local function make_metal_post (id, ingot_id, block_id, displayname)
 	chunkydeco.register_node('metal_post_end_'..id, {
 		displayname = displayname .. ' Post Endcap',
 		tiles = block_id: find '%.png' and {block_id} or blockdef.tiles,
+		use_texture_alpha = 'clip',
 		paramtype = 'light',
 		sunlight_propagates = true,
 		paramtype2 = 'facedir',
@@ -100,7 +103,7 @@ local function make_metal_post (id, ingot_id, block_id, displayname)
 	minetest.register_craft {
 		output = 'chunkydeco:metal_post_end_'..id..' 2',
 		recipe = {
-			{'', '', ''},
+			{'', 'etc:ct_hammer', ''},
 			{'', ingot_id, ''},
 			{ingot_id, ingot_id, ingot_id}
 		}
@@ -148,7 +151,7 @@ local function make_metal_beam (id, ingot_id, block_id, displayname)
 	minetest.register_craft {
 		output = 'chunkydeco:metal_beam_'..id..' 6',
 		recipe = {
-			{'', '', ''},
+			{'', 'etc:ct_hammer', ''},
 			{ingot_id, ingot_id, ingot_id},
 			{'', '', ''}
 		}
@@ -185,6 +188,7 @@ chunkydeco.register_node('metal_brace_steel', {
 		'chunkydeco_steel_brace_side.png^[transformFXR270',
 		'chunkydeco_steel_brace_side.png^[transformR90'
 	},
+	use_texture_alpha = 'clip',
 	paramtype = 'light',
 	sunlight_propagates = true,
 	paramtype2 = 'facedir',
@@ -201,7 +205,7 @@ minetest.register_craft {
 	output = 'chunkydeco:metal_brace_steel 3',
 	recipe = {
 		{'default:steel_ingot', 'default:steel_ingot', ''},
-		{'default:steel_ingot', '', ''},
+		{'default:steel_ingot', 'etc:ct_file', ''},
 		{'', '', ''}
 	}
 }
@@ -216,6 +220,7 @@ chunkydeco.register_node('metal_brace_wrought_iron', {
 		'chunkydeco_wrought_iron_brace_side.png^[transformFXR270',
 		'chunkydeco_wrought_iron_brace_side.png^[transformR90'
 	},
+	use_texture_alpha = 'clip',
 	paramtype = 'light',
 	sunlight_propagates = true,
 	paramtype2 = 'facedir',
@@ -232,7 +237,7 @@ minetest.register_craft {
 	output = 'chunkydeco:metal_brace_wrought_iron 3',
 	recipe = {
 		{'etcetera:wrought_iron_ingot', 'etcetera:wrought_iron_ingot', ''},
-		{'etcetera:wrought_iron_ingot', '', ''},
+		{'etcetera:wrought_iron_ingot', 'etc:ct_file', ''},
 		{'', '', ''}
 	}
 }
@@ -341,7 +346,7 @@ minetest.register_craft {
 	output = 'chunkydeco:metal_scaffold_wrought_iron 30',
 	recipe = {
 		{'etcetera:wrought_iron_ingot', 'etcetera:wrought_iron_ingot', 'etcetera:wrought_iron_ingot'},
-		{'chunkydeco:metal_rod_wrought_iron', '', 'chunkydeco:metal_rod_wrought_iron'},
+		{'chunkydeco:metal_rod_wrought_iron', 'etc:ct_drill', 'chunkydeco:metal_rod_wrought_iron'},
 		{'etcetera:wrought_iron_ingot', 'etcetera:wrought_iron_ingot', 'etcetera:wrought_iron_ingot'}
 	}
 }
@@ -350,7 +355,7 @@ minetest.register_craft {
 	output = 'chunkydeco:metal_scaffold_steel 30',
 	recipe = {
 		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
-		{'chunkydeco:metal_rod_steel', '', 'chunkydeco:metal_rod_steel'},
+		{'chunkydeco:metal_rod_steel', 'etc:ct_drill', 'chunkydeco:metal_rod_steel'},
 		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'}
 	}
 }

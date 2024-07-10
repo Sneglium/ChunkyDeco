@@ -3,6 +3,7 @@ local flowerlist = {}
 
 chunkydeco.register_node('flowerpot_empty', {
 	displayname = 'Flowerpot',
+	stats = 'Add and remove flowers with <RMB>',
 	tiles = {{name = 'chunkydeco_flowerpot_dirt.png', color = 'white'}, {name = 'empty.png', color = 'white'}},
 	overlay_tiles = {'chunkydeco_flowerpot_clay.png', ''},
 	use_texture_alpha = 'clip',

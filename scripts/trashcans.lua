@@ -50,7 +50,7 @@ chunkydeco.register_node('trashcan', {
 minetest.register_craft {
 	output = 'chunkydeco:trashcan 2',
 	recipe = {
-		{'', 'default:tin_ingot', ''},
+		{'etc:ct_hammer', 'default:tin_ingot', ''},
 		{'default:tin_ingot', 'default:paper', 'default:tin_ingot'},
 		{'default:tin_ingot', 'default:tin_ingot', 'default:tin_ingot'}
 	}
@@ -88,7 +88,7 @@ minetest.register_craft {
 	recipe = {
 		{'default:tin_ingot', '', 'default:tin_ingot'},
 		{'default:tin_ingot', 'default:paper', 'default:tin_ingot'},
-		{'', 'default:tin_ingot', ''}
+		{'etc:ct_cutters', 'default:tin_ingot', ''}
 	}
 }
 
@@ -125,6 +125,6 @@ minetest.register_craft {
 	recipe = {
 		{'default:tin_ingot', 'default:paper', 'default:tin_ingot'},
 		{'default:tin_ingot', 'default:paper', 'default:tin_ingot'},
-		{'', 'default:tin_ingot', ''}
+		{'etc:ct_cutters', 'default:tin_ingot', ''}
 	}
 }

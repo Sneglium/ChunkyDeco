@@ -282,15 +282,6 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 		drop = 'chunkydeco:chair_kitchen_cushion_'..id..'_0',
 	})
 	
-	minetest.register_craft {
-		output = minetest.itemstring_with_palette('chunkydeco:chair_kitchen_cushion_'..id..'_0 4', 0),
-		recipe = {
-			{'', 'wool:white', 'default:stick'},
-			{woodid, woodid, woodid},
-			{'default:stick', '', 'default:stick'}
-		}
-	}
-	
 	for index, dye in pairs(chunkydeco.colors) do
 		minetest.register_craft {
 			type = 'shapeless',
@@ -304,6 +295,15 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 			recipe = {'chunkydeco:chair_kitchen_cushion_'..id..'_0', dye, 'chunkydeco:dye_booster'}
 		}
 	end
+	
+	minetest.register_craft {
+		output = minetest.itemstring_with_palette('chunkydeco:chair_kitchen_cushion_'..id..'_0 4', 0),
+		recipe = {
+			{'', 'wool:white', 'default:stick'},
+			{woodid, woodid, woodid},
+			{'default:stick', '', 'default:stick'}
+		}
+	}
 end
 
 make_kitchen_chair_cushion('apple', 'default:wood', 'Applewood')
@@ -349,16 +349,6 @@ local function make_bar_stool (id, woodid, displayname)
 		on_dig = chair_on_dig
 	})
 	
-	
-	minetest.register_craft {
-		output = minetest.itemstring_with_palette('chunkydeco:barstool_'..id..' 4', 0),
-		recipe = {
-			{'', 'wool:white', ''},
-			{'', woodid, ''},
-			{'default:stick', '', 'default:stick'}
-		}
-	}
-	
 	for index, dye in pairs(chunkydeco.colors) do
 		minetest.register_craft {
 			type = 'shapeless',
@@ -372,6 +362,15 @@ local function make_bar_stool (id, woodid, displayname)
 			recipe = {'chunkydeco:barstool_'..id, dye, 'chunkydeco:dye_booster'}
 		}
 	end
+	
+	minetest.register_craft {
+			output = minetest.itemstring_with_palette('chunkydeco:barstool_'..id..' 4', 0),
+			recipe = {
+				{'', 'wool:white', ''},
+				{'', woodid, ''},
+				{'default:stick', '', 'default:stick'}
+			}
+	}
 end
 
 make_bar_stool('apple', 'default:wood', 'Applewood')
@@ -410,7 +409,6 @@ local function make_single_seat (id, woodid, displayname)
 			{'', 'default:stick', ''}
 		}
 	}
-	
 end
 
 make_single_seat('apple', 'default:wood', 'Applewood')
@@ -442,16 +440,6 @@ do
 		on_dig = chair_on_dig
 	})
 	
-	
-	minetest.register_craft {
-		output = minetest.itemstring_with_palette('chunkydeco:cushion 4', 0),
-		recipe = {
-			{'', 'wool:white', ''},
-			{'group:wood', 'group:wood', 'group:wood'},
-			{'', 'default:stick', ''}
-		}
-	}
-	
 	for index, dye in pairs(chunkydeco.colors) do
 		minetest.register_craft {
 			type = 'shapeless',
@@ -465,4 +453,13 @@ do
 			recipe = {'chunkydeco:cushion', dye, 'chunkydeco:dye_booster'}
 		}
 	end
+	
+	minetest.register_craft {
+		output = minetest.itemstring_with_palette('chunkydeco:cushion 4', 0),
+		recipe = {
+			{'', 'wool:white', ''},
+			{'group:wood', 'group:wood', 'group:wood'},
+			{'', 'default:stick', ''}
+		}
+	}
 end
