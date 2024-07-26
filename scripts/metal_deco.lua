@@ -245,7 +245,7 @@ minetest.register_craft {
 minetest.register_node('chunkydeco:scaffold_ladder', {
 	drawtype = 'airlike',
 	paramtype2 = '4dir',
-	collision_box = {type = 'fixed', fixed = {-6/16, 0.5, 0.5, -0.5, -0.5, -0.5}},
+	collision_box = {type = 'fixed', fixed = {-7.5/16, 0.5, 0.5, -0.5, -0.5, -0.5}},
 	pointable = false,
 	buildable_to = true,
 	walkable = false,

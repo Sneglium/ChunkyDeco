@@ -132,7 +132,6 @@ end
 -- leg boxes will be rotated so the +x +z corner faces outward on each corner of the table
 -- strut boxes will be rotated so the +x side faces outward for each side of the table with two legs
 local function make_connected_table (name, description, top_box, leg_box, strut_box, texname_override, special_group, sounds)
-	
 	local box_0 = {}
 	chunkydeco.unpack_and_inject(box_0, top_box)
 	chunkydeco.unpack_and_inject(box_0, leg_box)
@@ -182,7 +181,7 @@ local function make_dining_table (id, woodid, displayname)
 		recipe = {
 			{woodid, woodid, woodid},
 			{'default:stick', 'default:stick', 'default:stick'},
-			{'default:stick', '', 'default:stick'}
+			{'default:stick', 'etc:ct_saw', 'default:stick'}
 		}
 	}
 end
@@ -209,7 +208,7 @@ local function make_end_table (id, woodid, displayname)
 		recipe = {
 			{woodid, woodid, woodid},
 			{'default:stick', woodid, 'default:stick'},
-			{'default:stick', '', 'default:stick'}
+			{'default:stick', 'etc:ct_saw', 'default:stick'}
 		}
 	}
 end
@@ -235,7 +234,7 @@ local function make_workbench (id, woodid, displayname)
 		output = 'chunkydeco:table_'..id..'_workbench_0 2',
 		recipe = {
 			{woodid, woodid, woodid},
-			{woodid, '', woodid},
+			{woodid, 'etc:ct_saw', woodid},
 			{'default:stick', '', 'default:stick'}
 		}
 	}

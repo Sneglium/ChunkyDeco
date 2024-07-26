@@ -1,8 +1,4 @@
 
-local cached_physics = {}
-local player_sitting = {}
-local player_unsit = {}
-
 local function chair_on_place (itemstack, placer, pointed_thing)
 	local control = placer: get_player_control()
 	
@@ -16,90 +12,6 @@ local function chair_on_place (itemstack, placer, pointed_thing)
 		return minetest.rotate_node(itemstack, placer, pointed_thing)
 	end
 end
-
-local chairphys = {
-	speed = 0,
-	jump = 0,
-	sneak = false
-}
-
-minetest.register_entity('chunkydeco:chair_ent', {
-	initial_properties = {
-		physical = false,
-		pointable = false,
-		visual = 'sprite',
-		textures = {'empty.png'},
-		is_visible = false,
-		static_save = false
-	}
-})
-
-local function chair_on_rightclick (offset, invert)
-	return function (pos, node, clicker, itemstack, pointed_thing)
-		local playername = clicker: get_player_name()
-		if player_sitting[playername] then
-			clicker: set_physics_override(cached_physics[playername])
-			clicker: set_pos(player_unsit[playername])
-			player_sitting[playername] = false
-		else
-			if math.abs(clicker: get_velocity().y) >= 3 then return end
-			cached_physics[playername] = clicker: get_physics_override()
-			clicker: set_physics_override(chairphys)
-			
-			player_unsit[playername] = clicker: get_pos()
-			
-			local dir = minetest.facedir_to_dir(node.param2)
-			local horiz_rot = math.atan2(invert and -dir.x or dir.x, invert and dir.z or -dir.z)
-			local offset_rotated = vector.rotate_around_axis(offset, vector.new(0, 1, 0), horiz_rot)
-			local newpos = pos + offset_rotated
-			
-			clicker: set_pos(newpos)
-			player_sitting[playername] = newpos
-			clicker: set_look_horizontal(horiz_rot)
-			
-			local chair_ent = minetest.add_entity(pos, 'chunkydeco:chair_ent')
-			clicker: set_attach(chair_ent, '', newpos, dir)
-			
-			minetest.after(0.1, function (clicker, chair_ent, newpos)
-				if clicker and chair_ent then
-					clicker: set_detach()
-					chair_ent: remove()
-					clicker: set_pos(newpos)
-				end
-			end, clicker, chair_ent, newpos)
-		end
-	end
-end
-
-local function chair_on_dig (pos, node, digger)
-	local playername = digger: get_player_name()
-	
-	if player_sitting[playername] then
-		digger: set_physics_override(cached_physics[playername])
-		digger: set_pos(player_unsit[playername])
-		player_sitting[playername] = false
-	end
-	
-	return minetest.node_dig(pos, node, digger)
-end
-
-minetest.register_globalstep(function()
-	local players = minetest.get_connected_players()
-	for i = 1, #players do
-		local player = players[i]
-		local playername = player: get_player_name()
-		
-		if player_api and player_sitting[playername] then
-			player_api.set_animation(player, 'sit')
-		end
-		
-		if player: get_player_control().sneak and player_sitting[playername] then
-			player: set_physics_override(cached_physics[playername])
-			player: set_pos(player_unsit[playername])
-			player_sitting[playername] = false
-		end
-	end
-end)
 
 local function register_chair_node (name, id, description, nodebox, texname_override, specialgroup, offset, invert, sounds)
 	chunkydeco.register_node('chair_'..name..'_'..id, {
@@ -119,8 +31,8 @@ local function register_chair_node (name, id, description, nodebox, texname_over
 		sounds = sounds or default.node_sound_wood_defaults(),
 		drop = 'chunkydeco:chair_'..name..'_0',
 		on_place = id == 0 and chair_on_place or nil,
-		on_rightclick = chair_on_rightclick(offset or vector.new(), invert),
-		on_dig = chair_on_dig
+		on_rightclick = chunkydeco.chair_on_rightclick(offset or vector.new(), false),
+		on_dig = chunkydeco.chair_on_dig
 	})
 end
 
@@ -163,7 +75,7 @@ local function make_kitchen_chair (id, woodid, displayname)
 	minetest.register_craft {
 		output = 'chunkydeco:chair_'..id..'_kitchen_0 4',
 		recipe = {
-			{'', '', 'default:stick'},
+			{'etc:ct_saw', '', 'default:stick'},
 			{woodid, woodid, woodid},
 			{'default:stick', '', 'default:stick'}
 		}
@@ -197,7 +109,7 @@ local function make_fancy_chair (id, woodid, displayname)
 	minetest.register_craft {
 		output = 'chunkydeco:chair_'..id..'_fancy_0 4',
 		recipe = {
-			{'', '', 'default:stick'},
+			{'etc:ct_saw', '', 'default:stick'},
 			{woodid, woodid, woodid},
 			{'default:stick', 'default:stick', 'default:stick'}
 		}
@@ -227,7 +139,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 2))
 	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 3))
 	
-	collision_box = {type = 'fixed', fixed = collisionbox}
+	local collision_box = {type = 'fixed', fixed = collisionbox}
 	
 	local collisionbox2 = {}
 	
@@ -239,7 +151,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 		table.insert(collisionbox2, etc.rotate_nodebox(new_box, 'y', 2))
 	end
 	
-	collision_box2 = {type = 'fixed', fixed = collisionbox2}
+	local collision_box2 = {type = 'fixed', fixed = collisionbox2}
 	
 	chunkydeco.register_node('chair_kitchen_cushion_'..id..'_0', {
 		displayname = displayname..' Upholstered Kitchen Chair',
@@ -258,8 +170,8 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 		groups = {choppy = 3, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_wood_defaults(),
 		on_place = chair_on_place,
-		on_rightclick = chair_on_rightclick(vector.new(0, 0.1, 0), false),
-		on_dig = chair_on_dig
+		on_rightclick = chunkydeco.chair_on_rightclick(vector.new(0, 0.1, 0), false),
+		on_dig = chunkydeco.chair_on_dig
 	})
 	
 	chunkydeco.register_node('chair_kitchen_cushion_'..id..'_1', {
@@ -277,9 +189,13 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 		groups = {choppy = 3, oddly_breakable_by_hand = 1, not_in_creative_inventory = 1},
 		sounds = default.node_sound_wood_defaults(),
 		on_place = chair_on_place,
-		on_rightclick = chair_on_rightclick(vector.new(0, 0.1, 0.5), true),
-		on_dig = chair_on_dig,
-		drop = 'chunkydeco:chair_kitchen_cushion_'..id..'_0',
+		on_rightclick = chunkydeco.chair_on_rightclick(vector.new(0, 0.1, 0.5), true),
+		on_dig = chunkydeco.chair_on_dig,
+		drop = {
+			items = {
+				{items = {'chunkydeco:chair_kitchen_cushion_'..id..'_0'}, inherit_color = true },
+			}
+		},
 	})
 	
 	for index, dye in pairs(chunkydeco.colors) do
@@ -299,7 +215,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 	minetest.register_craft {
 		output = minetest.itemstring_with_palette('chunkydeco:chair_kitchen_cushion_'..id..'_0 4', 0),
 		recipe = {
-			{'', 'wool:white', 'default:stick'},
+			{'etc:ct_saw', 'wool:white', 'default:stick'},
 			{woodid, woodid, woodid},
 			{'default:stick', '', 'default:stick'}
 		}
@@ -326,7 +242,7 @@ local function make_bar_stool (id, woodid, displayname)
 	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 2))
 	chunkydeco.unpack_and_inject(collisionbox, etc.rotate_nodeboxes(leg_box, 'y', 3))
 	
-	collision_box = {type = 'fixed', fixed = collisionbox}
+	local collision_box = {type = 'fixed', fixed = collisionbox}
 	
 	chunkydeco.register_node('barstool_'..id, {
 		displayname = displayname..' Bar Stool',
@@ -344,9 +260,9 @@ local function make_bar_stool (id, woodid, displayname)
 		collision_box = collision_box,
 		groups = {choppy = 3, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_wood_defaults(),
-		on_rightclick = chair_on_rightclick(vector.new(0, 0.5, 0), false),
+		on_rightclick = chunkydeco.chair_on_rightclick(vector.new(0, 0.5, 0), false),
 		on_place = chair_on_place,
-		on_dig = chair_on_dig
+		on_dig = chunkydeco.chair_on_dig
 	})
 	
 	for index, dye in pairs(chunkydeco.colors) do
@@ -367,7 +283,7 @@ local function make_bar_stool (id, woodid, displayname)
 			output = minetest.itemstring_with_palette('chunkydeco:barstool_'..id..' 4', 0),
 			recipe = {
 				{'', 'wool:white', ''},
-				{'', woodid, ''},
+				{'etc:ct_saw', woodid, ''},
 				{'default:stick', '', 'default:stick'}
 			}
 	}
@@ -395,16 +311,16 @@ local function make_single_seat (id, woodid, displayname)
 		collision_box = nodebox,
 		groups = {choppy = 3, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_wood_defaults(),
-		on_rightclick = chair_on_rightclick(vector.new(0, -0.4, 0), false),
+		on_rightclick = chunkydeco.chair_on_rightclick(vector.new(0, -0.4, 0), false),
 		on_place = chair_on_place,
-		on_dig = chair_on_dig
+		on_dig = chunkydeco.chair_on_dig
 	})
 	
 	
 	minetest.register_craft {
 		output = 'chunkydeco:seat_'..id..' 4',
 		recipe = {
-			{'', '', ''},
+			{'', 'etc:ct_saw', ''},
 			{woodid, woodid, woodid},
 			{'', 'default:stick', ''}
 		}
@@ -435,9 +351,9 @@ do
 		collision_box = nodebox,
 		groups = {choppy = 3, oddly_breakable_by_hand = 1},
 		sounds = default.node_sound_wood_defaults(),
-		on_rightclick = chair_on_rightclick(vector.new(0, -4/16, 0), false),
+		on_rightclick = chunkydeco.chair_on_rightclick(vector.new(0, -4/16, 0), false),
 		on_place = chair_on_place,
-		on_dig = chair_on_dig
+		on_dig = chunkydeco.chair_on_dig
 	})
 	
 	for index, dye in pairs(chunkydeco.colors) do
@@ -457,7 +373,7 @@ do
 	minetest.register_craft {
 		output = minetest.itemstring_with_palette('chunkydeco:cushion 4', 0),
 		recipe = {
-			{'', 'wool:white', ''},
+			{'etc:ct_saw', 'wool:white', ''},
 			{'group:wood', 'group:wood', 'group:wood'},
 			{'', 'default:stick', ''}
 		}

@@ -131,7 +131,7 @@ minetest.override_item('default:fern_1', {
 		if node.name == 'chunkydeco:flowerpot_empty' then
 			return minetest.item_place(itemstack, placer, pointed_thing)
 		end
-		old_on_place(itemstack, placer, pointed_thing)
+		return old_on_place(itemstack, placer, pointed_thing)
 	end,
 })
 

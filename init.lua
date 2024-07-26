@@ -46,8 +46,11 @@ chunkydeco.colors = {
 	'dye:white'
 }
 
+-- NOTE: fair warning; a lot of this code is really crappy and duplicated across files because I have yet to make an Etc util for it.
+
 -- Utilities
 load_script 'dye_booster'
+load_script 'sitting'
 
 -- Outdoor Furniture
 load_script 'flowerpots'
@@ -56,12 +59,9 @@ load_script 'planters'
 -- (mostly) Indoor Furniture
 load_script 'tables'
 load_script 'chairs'
+load_script 'benches'
 
 load_script 'trashcans'
 
--- Lighting
-
 -- Construction
 load_script 'metal_deco'
-
--- Miscellaneous
