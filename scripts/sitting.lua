@@ -34,14 +34,18 @@ function chunkydeco.chair_on_rightclick (offset, invert)
 			
 			player_unsit[playername] = clicker: get_pos()
 			
-			local dir = minetest.facedir_to_dir(node.param2)
+			local facing = node.param2 > 3 and node.param2 - (math.floor(node.param2 / 4) * 4) or node.param2
+			local dir = minetest.facedir_to_dir(facing)
 			local horiz_rot = math.atan2(invert and -dir.x or dir.x, invert and dir.z or -dir.z)
 			local offset_rotated = vector.rotate_around_axis(offset, vector.new(0, 1, 0), horiz_rot)
 			local newpos = pos + offset_rotated
 			
 			clicker: set_pos(newpos)
 			player_sitting[playername] = newpos
-			clicker: set_look_horizontal(horiz_rot)
+			
+			minetest.after(0, function()
+				clicker: set_look_horizontal(horiz_rot)
+			end)
 			
 			local chair_ent = minetest.add_entity(pos, 'chunkydeco:chair_ent')
 			clicker: set_attach(chair_ent, '', newpos, dir)

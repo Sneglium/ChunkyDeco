@@ -14,7 +14,7 @@ local function chair_on_place (itemstack, placer, pointed_thing)
 end
 
 local function register_chair_node (name, id, description, nodebox, texname_override, specialgroup, offset, invert, sounds)
-	chunkydeco.register_node('chair_'..name..'_'..id, {
+	chunkydeco: register_node('chair_'..name..'_'..id, {
 		displayname = description,
 		description = 'Sneak while placing to put under tables.',
 		tiles = {
@@ -153,7 +153,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 	
 	local collision_box2 = {type = 'fixed', fixed = collisionbox2}
 	
-	chunkydeco.register_node('chair_kitchen_cushion_'..id..'_0', {
+	chunkydeco: register_node('chair_kitchen_cushion_'..id..'_0', {
 		displayname = displayname..' Upholstered Kitchen Chair',
 		description = 'Sneak while placing to put under tables.\nCraft with dye to change cushion color.',
 		tiles = {{name = 'chunkydeco_chair_kitchen_fancy_'..id..'.png', color = 'white'}},
@@ -174,7 +174,7 @@ local function make_kitchen_chair_cushion (id, woodid, displayname)
 		on_dig = chunkydeco.chair_on_dig
 	})
 	
-	chunkydeco.register_node('chair_kitchen_cushion_'..id..'_1', {
+	chunkydeco: register_node('chair_kitchen_cushion_'..id..'_1', {
 		tiles = {{name = 'chunkydeco_chair_kitchen_fancy_'..id..'.png', color = 'white'}},
 		overlay_tiles = {'chunkydeco_chair_kitchen_fancy_cushion.png'},
 		use_texture_alpha = 'clip',
@@ -244,7 +244,7 @@ local function make_bar_stool (id, woodid, displayname)
 	
 	local collision_box = {type = 'fixed', fixed = collisionbox}
 	
-	chunkydeco.register_node('barstool_'..id, {
+	chunkydeco: register_node('barstool_'..id, {
 		displayname = displayname..' Bar Stool',
 		description = 'Craft with dye to change cushion color.',
 		tiles = {'chunkydeco_barstool_cushion.png'},
@@ -298,7 +298,7 @@ make_bar_stool('pine', 'default:pine_wood', 'Pine')
 local function make_single_seat (id, woodid, displayname)
 	local nodebox = {type = 'fixed', fixed = {7/16, -7/16, 7/16, -7/16, -0.5, -7/16}}
 	
-	chunkydeco.register_node('seat_'..id, {
+	chunkydeco: register_node('seat_'..id, {
 		displayname = displayname..' Seat Base',
 		description = 'Place on top of any node to make it sittable.',
 		tiles = {'chunkydeco_chair_'..id..'_kitchen_top.png'},
@@ -336,7 +336,7 @@ make_single_seat('pine', 'default:pine_wood', 'Pine')
 do
 	local nodebox = {type = 'fixed', fixed = {6/16, -4/16, 6/16, -6/16, -0.5, -6/16}}
 	
-	chunkydeco.register_node('cushion', {
+	chunkydeco: register_node('cushion', {
 		displayname = 'Seat Cushion',
 		description = 'Place on top of any node to make it sittable.\nCraft with dye to change cushion color.',
 		tiles = {'chunkydeco_cushion_top.png', 'chunkydeco_cushion_top.png', 'chunkydeco_cushion_side.png'},

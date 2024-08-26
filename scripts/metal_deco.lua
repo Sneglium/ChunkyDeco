@@ -1,7 +1,7 @@
 
 local function make_metal_rod (id, ingot_id, block_id, displayname)
 	local blockdef = minetest.registered_nodes[block_id]
-	chunkydeco.register_node('metal_rod_'..id, {
+	chunkydeco: register_node('metal_rod_'..id, {
 		displayname = displayname .. ' Rod',
 		tiles = block_id: find '%.png' and {block_id} or blockdef.tiles,
 		use_texture_alpha = 'clip',
@@ -35,7 +35,7 @@ end
 
 local function make_metal_post (id, ingot_id, block_id, displayname)
 	local blockdef = minetest.registered_nodes[block_id]
-	chunkydeco.register_node('metal_post_'..id, {
+	chunkydeco: register_node('metal_post_'..id, {
 		displayname = displayname .. ' Post',
 		tiles = block_id: find '%.png' and {block_id} or blockdef.tiles,
 		use_texture_alpha = 'clip',
@@ -70,7 +70,7 @@ local function make_metal_post (id, ingot_id, block_id, displayname)
 		}
 	}
 	
-	chunkydeco.register_node('metal_post_end_'..id, {
+	chunkydeco: register_node('metal_post_end_'..id, {
 		displayname = displayname .. ' Post Endcap',
 		tiles = block_id: find '%.png' and {block_id} or blockdef.tiles,
 		use_texture_alpha = 'clip',
@@ -124,7 +124,7 @@ local function make_metal_beam (id, ingot_id, block_id, displayname)
 	}
 	
 	local blockdef = minetest.registered_nodes[block_id]
-	chunkydeco.register_node('metal_beam_'..id, {
+	chunkydeco: register_node('metal_beam_'..id, {
 		displayname = displayname .. ' I-Beam',
 		tiles = block_id: find '%.png' and {block_id} or blockdef.tiles,
 		paramtype = 'light',
@@ -178,7 +178,7 @@ local brace_selectionbox = {
 	{4/16, 2/16, 2/16, -0.5, -0.5, -2/16}
 }
 
-chunkydeco.register_node('metal_brace_steel', {
+chunkydeco: register_node('metal_brace_steel', {
 	displayname = 'Steel Corner Brace',
 	tiles = {
 		'chunkydeco_steel_ibeam.png',
@@ -210,7 +210,7 @@ minetest.register_craft {
 	}
 }
 
-chunkydeco.register_node('metal_brace_wrought_iron', {
+chunkydeco: register_node('metal_brace_wrought_iron', {
 	displayname = 'Wrought Iron Corner Brace',
 	tiles = {
 		'chunkydeco_wrought_iron_ibeam.png',
@@ -282,7 +282,7 @@ local scaffold_on_destruct = function (pos)
 	check_and_remove(pos +vector.new(0, 0, 1), 3)
 end
 
-chunkydeco.register_node('metal_scaffold_wrought_iron', {
+chunkydeco: register_node('metal_scaffold_wrought_iron', {
 	displayname = 'Wrought Iron Scaffolding',
 	description = 'Can be climbed like a ladder.',
 	tiles = {
@@ -298,7 +298,7 @@ chunkydeco.register_node('metal_scaffold_wrought_iron', {
 	on_destruct = scaffold_on_destruct
 })
 
-chunkydeco.register_node('metal_scaffold_steel', {
+chunkydeco: register_node('metal_scaffold_steel', {
 	displayname = 'Steel Scaffolding',
 	description = 'Can be climbed like a ladder.',
 	tiles = {

@@ -1,20 +1,14 @@
 
-chunkydeco = {modpath = minetest.get_modpath 'chunkydeco'}
+etc.register_mod 'chunkydeco'
 
 local translate = minetest.get_translator 'chunkydeco'
 
-etc.gettext.chunkydeco = function(text, colormode, ...)
-	if (not colormode) or colormode == 'normal' then
+chunkydeco.gettext = function(text, colormode, ...)
+	if (not colormode) or colormode == 'normal' or colormode == 'displayname' then
 		return translate(text, ...)
 	else
 		return minetest.colorize(assert(etc.textcolors[colormode], 'Invalid color: ' .. colormode), translate(etc.wrap_text(text, ETC_DESC_WRAP_LIMIT), ...): gsub('\n', '|n|')): gsub('|n|', '\n'): sub(1, -1)
 	end
-end
-
-chunkydeco.register_node, chunkydeco.register_item, chunkydeco.register_tool = etc.create_wrappers('chunkydeco', 'chunky')
-
-local function load_script (fn)
-	dofile(table.concat {chunkydeco.modpath, '/scripts/', fn, '.lua'})
 end
 
 function chunkydeco.unpack_and_inject (t, t2)
@@ -49,19 +43,22 @@ chunkydeco.colors = {
 -- NOTE: fair warning; a lot of this code is really crappy and duplicated across files because I have yet to make an Etc util for it.
 
 -- Utilities
-load_script 'dye_booster'
-load_script 'sitting'
+chunkydeco: load_script 'dye_booster'
+chunkydeco: load_script 'sitting'
 
 -- Outdoor Furniture
-load_script 'flowerpots'
-load_script 'planters'
+chunkydeco: load_script 'flowerpots'
+chunkydeco: load_script 'planters'
 
 -- (mostly) Indoor Furniture
-load_script 'tables'
-load_script 'chairs'
-load_script 'benches'
+chunkydeco: load_script 'tables'
+chunkydeco: load_script 'chairs'
+chunkydeco: load_script 'benches'
 
-load_script 'trashcans'
+chunkydeco: load_script 'trashcans'
 
 -- Construction
-load_script 'metal_deco'
+chunkydeco: load_script 'metal_deco'
+
+-- General Decorations
+chunkydeco: load_script 'item_holders'

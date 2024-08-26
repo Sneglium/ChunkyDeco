@@ -1,5 +1,5 @@
 
-chunkydeco.register_node('flowerpot_large', {
+chunkydeco: register_node('flowerpot_large', {
 	displayname = 'Terracotta Planter',
 	tiles = {
 		{name = 'chunkydeco_planter_dirt.png', color = 'white'},

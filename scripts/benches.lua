@@ -101,7 +101,7 @@ local function update_bench_shapes (name, self)
 end
 
 local function register_bench_node (name, id, description, nodebox, offset, sounds, color)
-	chunkydeco.register_node('bench_'..name..'_'..id, {
+	chunkydeco: register_node('bench_'..name..'_'..id, {
 		displayname = description,
 		description = color and 'Craft with dye to change cushion color.',
 		tiles = color and {
@@ -177,7 +177,7 @@ make_connected_bench('sofa', 'Upholstered Sofa', {
 	6/16, -6/16, 6/16, 2/16, -0.5, 2/16
 }, {
 	{9/16, 6/16, 0.5, 5/16, -5/16, -6/16}
-}, 0.1, nil, true)
+}, 0.0, nil, true)
 
 for index, dye in pairs(chunkydeco.colors) do
 	minetest.register_craft {

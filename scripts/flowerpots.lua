@@ -1,7 +1,7 @@
 
 local flowerlist = {}
 
-chunkydeco.register_node('flowerpot_empty', {
+chunkydeco: register_node('flowerpot_empty', {
 	displayname = 'Flowerpot',
 	stats = 'Add and remove flowers with <RMB>',
 	tiles = {{name = 'chunkydeco_flowerpot_dirt.png', color = 'white'}, {name = 'empty.png', color = 'white'}},
@@ -46,7 +46,7 @@ local function make_flowerpot (flower, override_tex)
 	
 	local def = minetest.registered_nodes[flower]
 	
-	chunkydeco.register_node(pot_name, {
+	chunkydeco: register_node(pot_name, {
 		tiles = {
 			{name = 'chunkydeco_flowerpot_dirt.png', color = 'white'},
 			{name = override_tex or def.tiles[1], color = 'white'}

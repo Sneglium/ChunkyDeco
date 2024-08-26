@@ -25,7 +25,7 @@ local function trashcan_receive_fields (pos, formname, fields, sender)
 	inv: set_size('trash', 12)
 end
 
-chunkydeco.register_node('trashcan', {
+chunkydeco: register_node('trashcan', {
 	displayname = 'Trash Can',
 	description = 'Deletes all items inside it when closed.',
 	tiles = {'chunkydeco_trashcan_top.png', 'chunkydeco_trashcan_bottom.png', 'chunkydeco_trashcan_side.png'},
@@ -56,7 +56,7 @@ minetest.register_craft {
 	}
 }
 
-chunkydeco.register_node('trashcan_wire', {
+chunkydeco: register_node('trashcan_wire', {
 	displayname = 'Wire Wastepaper Basket',
 	description = 'Deletes all items inside it when closed.',
 	tiles = {'chunkydeco_trashcan_wire_top.png', 'chunkydeco_trashcan_bottom.png', 'chunkydeco_trashcan_wire_side.png'},
@@ -92,7 +92,7 @@ minetest.register_craft {
 	}
 }
 
-chunkydeco.register_node('trashcan_wire_full', {
+chunkydeco: register_node('trashcan_wire_full', {
 	displayname = 'Wire Wastepaper Basket (Full)',
 	description = 'Deletes all items inside it when closed.',
 	tiles = {'chunkydeco_trashcan_paper.png', 'chunkydeco_trashcan_bottom.png', 'chunkydeco_trashcan_paper.png^chunkydeco_trashcan_wire_side.png'},

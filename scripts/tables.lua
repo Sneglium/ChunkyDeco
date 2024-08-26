@@ -107,7 +107,7 @@ local function update_table_shapes (name, self)
 end
 
 local function register_table_node (name, id, description, nodebox, texname_override, specialgroup, sounds)
-	chunkydeco.register_node('table_'..name..'_'..id, {
+	chunkydeco: register_node('table_'..name..'_'..id, {
 		displayname = description,
 		tiles = {
 			{name = 'chunkydeco_table_'..(texname_override or name)..'_top.png', align_style = 'world'},
