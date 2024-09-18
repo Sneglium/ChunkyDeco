@@ -274,4 +274,104 @@ minetest.register_craft {
 	output = 'chunkydeco:item_frame_glass 8'
 }
 
--- hanging sign: same item on both sides
+local sword_holder_rot_map = {
+	[0] = vector.new(0, math.pi, 0.75*math.pi),
+	[1] = vector.new(0, 0.5*math.pi, 0.75*math.pi),
+	[2] = vector.new(0, -math.pi, 0.75*math.pi),
+	[3] = vector.new(0, -0.5*math.pi, 0.75*math.pi)
+}
+
+chunkydeco: register_node('sword_holder', {
+	displayname = 'Sword Stand',
+	stats = '<RMB> to add/remove item',
+	tiles = {
+		'default_stone.png',
+		'default_stone.png',
+		'default_stone.png^chunkydeco_sword_holder_side.png',
+	},
+	inventory_image = 'chunkydeco_sword_holder_inv.png',
+	use_texture_alpha = 'clip',
+	paramtype = 'light',
+	sunlight_propagates = true,
+	paramtype2 = '4dir',
+	drawtype = 'nodebox',
+	node_box = {
+		type = 'fixed',
+		fixed = {
+			{-3/16, -0.5, -2/16, 3/16, -5/16, 2/16},
+			{-4/16, -0.5, -2/16, 4/16, -7/16, 2/16},
+			{-2/16, -5/16, -1.5/16, 2/16, -4/16, 1.5/16},
+		}
+	},
+	walkable = true,
+	groups = {cracky = 3, dig_immediate = 3, attached_node = 1, item_holder = 1},
+	sounds = default.node_sound_stone_defaults(),
+	
+	on_construct = function (pos)
+		local meta = minetest.get_meta(pos)
+		local inv = meta: get_inventory()
+		
+		inv: set_size('item', 1)
+	end,
+	on_dig = item_frame_on_dig(ItemStack 'chunkydeco:sword_holder'),
+	on_rightclick = function (pos, node, clicker, itemstack, pointed_thing)
+		if minetest.is_protected(pos, clicker: get_player_name()) then
+			return clicker: get_wielded_item()
+		end
+		
+		local meta = minetest.get_meta(pos)
+		local inv = meta: get_inventory()
+		
+		if not inv: is_empty 'item' then
+			etc.give_or_drop(clicker, vector.add(pos, vector.new(0, 0.5, 0)), inv: get_stack('item', 1))
+			inv: set_stack('item', 1, '')
+			meta: set_string('infotext', '')
+			etc.remove_item_display(pos)
+			return clicker: get_wielded_item()
+		end
+		
+		if minetest.get_item_group(itemstack: get_name(), 'sword') ~= 0 then
+			local taken_item = itemstack: peek_item(1)
+			inv: set_stack('item', 1, taken_item)
+			meta: set_string('infotext', taken_item: get_short_description())
+			set_holder_display (pos, node)
+			
+			itemstack: take_item(1)
+		end
+		
+		return itemstack
+	end,
+	
+	_item_visual_pos = function (pos, node)
+		local meta = minetest.get_meta(pos)
+		local inv = meta: get_inventory()
+	
+		local scale = (inv: get_stack('item', 1): get_definition().wield_scale or {x = 1, y = 1})
+		local hypot = math.sqrt((scale.x^2) + (scale.y^2))
+	
+		return vector.new(0, (0.4*hypot) - 0.45, 0)
+	end,
+	
+	_item_visual_rotation = function (pos, node)
+		return sword_holder_rot_map[node.param2]
+	end,
+	
+	_item_visual_scale = function (pos, node)
+		local meta = minetest.get_meta(pos)
+		local inv = meta: get_inventory()
+		
+		local scale = vector.new(inv: get_stack('item', 1): get_definition().wield_scale or {x = 1, y = 1, z = 1}) * 0.4
+		scale.z = math.min(scale.z, 0.5)
+		
+		return scale
+	end
+})
+
+minetest.register_craft {
+	recipe = {
+		{'', 'default:bronze_ingot', ''},
+		{'', 'group:stone', ''},
+		{'group:stone', 'group:stone', 'group:stone'}
+	},
+	output = 'chunkydeco:sword_holder 3'
+}

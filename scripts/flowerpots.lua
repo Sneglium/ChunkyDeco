@@ -30,13 +30,14 @@ chunkydeco: register_node('flowerpot_empty', {
 	groups = {cracky = 3, oddly_breakable_by_hand = 3},
 	sounds = default.node_sound_stone_defaults(),
 	
-	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+	on_rightclick = function(pos, node, clicker)
+		local itemstack = clicker: get_wielded_item()
 		if flowerlist[itemstack: get_name()] then
 			minetest.swap_node(pos, {name = flowerlist[itemstack: get_name()], param2 = node.param2})
 			itemstack: take_item(1)
-			return itemstack
+			minetest.after(0, function() clicker: set_wielded_item(itemstack) end)
 		end
-		return clicker: get_wielded_item()
+		minetest.after(0, function() clicker: set_wielded_item(itemstack) end)
 	end
 })
 
@@ -76,11 +77,11 @@ local function make_flowerpot (flower, override_tex)
 		groups = {cracky = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory = 1},
 		sounds = default.node_sound_stone_defaults(),
 		
-		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		on_rightclick = function(pos, node, clicker)
 			etc.give_or_drop(clicker, pos, ItemStack(flower))
-			
+			local itemstack = clicker: get_wielded_item()
 			minetest.swap_node(pos, {name = 'chunkydeco:flowerpot_empty', param2 = node.param2})
-			return clicker: get_wielded_item()
+			minetest.after(0, function() clicker: set_wielded_item(itemstack) end)
 		end,
 		
 		on_dig = function(pos, node, digger)
