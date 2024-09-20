@@ -158,6 +158,13 @@ minetest.register_craft {
 	output = 'chunkydeco:item_frame 3'
 }
 
+local function glass_frame_scale (pos, node)
+	local meta = minetest.get_meta(pos)
+	local inv = meta: get_inventory()
+	
+	return minetest.registered_nodes[inv: get_stack('item', 1): get_name()] and 1.5 or 2
+end
+
 chunkydeco: register_node('item_frame_glass', {
 	displayname = 'Glass Item Frame',
 	description = 'Invisible when holding an item',
@@ -214,7 +221,7 @@ chunkydeco: register_node('item_frame_glass', {
 	end,
 	
 	_item_visual_rotation = item_frame_rotation,
-	_item_visual_scale = item_frame_scale
+	_item_visual_scale = glass_frame_scale
 })
 
 local frame_shape_min = {-6/16, 2/16, 3/16, -0.5, -4/16, -3/16}
@@ -262,7 +269,7 @@ chunkydeco: register_node('item_frame_glass_hidden', {
 	end,
 	
 	_item_visual_rotation = item_frame_rotation,
-	_item_visual_scale = item_frame_scale
+	_item_visual_scale = glass_frame_scale
 })
 
 minetest.register_craft {
