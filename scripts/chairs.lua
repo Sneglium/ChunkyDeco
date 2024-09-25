@@ -31,7 +31,7 @@ local function register_chair_node (name, id, description, nodebox, texname_over
 		sounds = sounds or default.node_sound_wood_defaults(),
 		drop = 'chunkydeco:chair_'..name..'_0',
 		on_place = id == 0 and chair_on_place or nil,
-		on_rightclick = chunkydeco.chair_on_rightclick(offset or vector.new(), false),
+		on_rightclick = chunkydeco.chair_on_rightclick(offset or vector.new(), invert),
 		on_dig = chunkydeco.chair_on_dig
 	})
 end

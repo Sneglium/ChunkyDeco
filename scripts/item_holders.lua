@@ -353,10 +353,10 @@ chunkydeco: register_node('sword_holder', {
 		local meta = minetest.get_meta(pos)
 		local inv = meta: get_inventory()
 	
-		local scale = (inv: get_stack('item', 1): get_definition().wield_scale or {x = 1, y = 1})
+		local scale = vector.new(inv: get_stack('item', 1): get_definition().wield_scale or {x = 1, y = 1}) * 0.4
 		local hypot = math.sqrt((scale.x^2) + (scale.y^2))
 	
-		return vector.new(0, (0.4*hypot) - 0.45, 0)
+		return vector.new(0, hypot - (7/16), 0)
 	end,
 	
 	_item_visual_rotation = function (pos, node)
@@ -382,3 +382,4 @@ minetest.register_craft {
 	},
 	output = 'chunkydeco:sword_holder 3'
 }
+
